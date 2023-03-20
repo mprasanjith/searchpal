@@ -59,9 +59,9 @@ export type ColorVars = {
 export type ThemeVariant = "light" | "dark";
 
 class Palette {
-  #properties: ThemeProperties;
-  #addProperties(obj: Partial<{ [key in keyof ThemeProperties]: any }>) {
-    let properties = { ...this.#properties },
+  private properties: ThemeProperties;
+  private addProperties(obj: Partial<{ [key in keyof ThemeProperties]: any }>) {
+    let properties = { ...this.properties },
       values: Partial<ThemeProperties> = {};
     Object.entries(obj).forEach(([key, value]) => {
       if (themeProperties.has(key) && (value || value === 0))
@@ -73,37 +73,37 @@ class Palette {
         if (properties[key]) delete properties[key];
       }
     }
-    this.#properties = { ...properties, ...values };
+    this.properties = { ...properties, ...values };
   }
   accent(
     color: CSS<"backgroundColor"> | null,
     text?: CSS<"color"> | undefined
   ) {
-    this.#addProperties({ accent: color, accentText: text });
+    this.addProperties({ accent: color, accentText: text });
   }
   backdrop(
     backgroundColor: CSS<"backgroundColor"> | null,
     opacity?: CSS<"opacity">
   ) {
-    this.#addProperties({
+    this.addProperties({
       backdrop: backgroundColor,
       backdropOpacity: opacity,
     });
   }
 
   bg(backgroundColor: CSS<"backgroundColor">) {
-    this.#addProperties({ background: backgroundColor });
+    this.addProperties({ background: backgroundColor });
   }
 
   text(primaryColor?: CSS<"color"> | null, secondaryColor?: CSS<"color">) {
-    this.#addProperties({ text: primaryColor, textSecondary: secondaryColor });
+    this.addProperties({ text: primaryColor, textSecondary: secondaryColor });
   }
 
   border(
     borderColor: CSS<"borderColor"> | null,
     borderWidth?: CSS<"borderWidth"> | number
   ) {
-    this.#addProperties({
+    this.addProperties({
       borderColor: borderColor,
       borderWidth: borderWidth
         ? `${borderWidth}${isNumber(borderWidth) ? "px" : ""}`
@@ -112,7 +112,7 @@ class Palette {
   }
 
   shadow(boxShadow: CSS<"boxShadow">) {
-    this.#addProperties({ shadow: boxShadow });
+    this.addProperties({ shadow: boxShadow });
   }
 
   option: {
@@ -127,7 +127,7 @@ class Palette {
   };
 
   set(theme: Partial<ThemeProperties>) {
-    this.#addProperties(theme);
+    this.addProperties(theme);
   }
 
   toVariables() {
@@ -146,7 +146,7 @@ class Palette {
       optionSelectedBackground,
       optionSelectedText,
       optionText,
-    } = this.#properties;
+    } = this.properties;
 
     return {
       "--accent": accent,
@@ -166,14 +166,14 @@ class Palette {
     } as ColorVars;
   }
   constructor(variant: "light" | "dark" = "light") {
-    this.#properties = variant === "dark" ? defaults.dark : defaults.light;
+    this.properties = variant === "dark" ? defaults.dark : defaults.light;
 
     this.option = Object.assign(
       (
         backgroundColor: CSS<"backgroundColor"> | null,
         textColor?: CSS<"color">
       ) => {
-        this.#addProperties({
+        this.addProperties({
           optionBackground: backgroundColor,
           optionText: textColor,
         });
@@ -183,7 +183,7 @@ class Palette {
           backgroundColor: CSS<"backgroundColor"> | null,
           textColor?: CSS<"color">
         ) => {
-          this.#addProperties({
+          this.addProperties({
             optionSelectedBackground: backgroundColor,
             optionSelectedText: textColor,
           });
@@ -197,7 +197,7 @@ export class Theme {
   light: Palette;
   dark: Palette;
 
-  #global(key: keyof Palette, ...args: any) {
+  private global(key: keyof Palette, ...args: any) {
     const tuple = [...args] as [any];
     if (tuple.length > 0) {
       if (isFunction(this.light[key])) this.light[key](...tuple);
@@ -209,28 +209,28 @@ export class Theme {
     color: CSS<"backgroundColor"> | null,
     text?: CSS<"color"> | undefined
   ) {
-    this.#global("accent", color, text);
+    this.global("accent", color, text);
   }
   backdrop(
     backgroundColor: CSS<"backgroundColor"> | null,
     opacity?: CSS<"opacity">
   ) {
-    this.#global("backdrop", backgroundColor, opacity);
+    this.global("backdrop", backgroundColor, opacity);
   }
   bg(backgroundColor: CSS<"backgroundColor">) {
-    this.#global("bg", backgroundColor);
+    this.global("bg", backgroundColor);
   }
   text(primaryColor?: CSS<"color"> | null, secondaryColor?: CSS<"color">) {
-    this.#global("text", primaryColor, secondaryColor);
+    this.global("text", primaryColor, secondaryColor);
   }
   border(
     borderColor: CSS<"borderColor"> | null,
     borderWidth?: CSS<"borderWidth"> | number
   ) {
-    this.#global("border", borderColor, borderWidth);
+    this.global("border", borderColor, borderWidth);
   }
   shadow(boxShadow: CSS<"boxShadow">) {
-    this.#global("shadow", boxShadow);
+    this.global("shadow", boxShadow);
   }
 
   option: {
@@ -246,7 +246,7 @@ export class Theme {
 
   set(theme?: Partial<ThemeProperties>) {
     if (theme) {
-      this.#global("set", theme);
+      this.global("set", theme);
     }
   }
 
@@ -269,7 +269,7 @@ export class Theme {
         backgroundColor: CSS<"backgroundColor"> | null,
         textColor?: CSS<"color">
       ) => {
-        this.#global("set", {
+        this.global("set", {
           optionBackground: backgroundColor,
           optionText: textColor,
         });
@@ -279,7 +279,7 @@ export class Theme {
           backgroundColor: CSS<"backgroundColor"> | null,
           textColor?: CSS<"color">
         ) => {
-          this.#global("set", {
+          this.global("set", {
             optionSelectedBackground: backgroundColor,
             optionSelectedText: textColor,
           });
