@@ -56,6 +56,12 @@ export const Image = styled.img`
   object-position: center;
 `;
 
+export const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+`
+
 export const Label = styled(Span)`
   display: block;
   flex: 1 1 auto;
@@ -64,4 +70,8 @@ export const Label = styled(Span)`
   ${mediaQuery("md")} {
     ${classes.text.size.smd}
   }
+`;
+
+export const Description = styled(Label)`
+  ${getVarClass("text-light")}
 `;

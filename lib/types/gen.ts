@@ -95,6 +95,7 @@ export type Img = {
 
 export type OptionProps = PropsWithChildren<{
   label: string;
+  description?: string;
   keywords?:
     | string[]
     | ((interpreter: (...args: any[]) => string[]) => string[]);

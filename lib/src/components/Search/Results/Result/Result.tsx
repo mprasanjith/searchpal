@@ -4,7 +4,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { Link } from "../../Link";
 import { useScreenSize } from "../../../../hooks";
-import { Details, Image, Label, Li, Media } from "./Result.styled";
+import {
+  Details,
+  Image,
+  Label,
+  LabelWrapper,
+  Li,
+  Media,
+  Description,
+} from "./Result.styled";
 import { isFunction } from "../../../../../utils";
 import { Arrow } from "./Arrow";
 
@@ -12,6 +20,7 @@ export const Result = ({
   media: CustomMedia,
   img,
   label,
+  description,
   onClick,
   href,
   id,
@@ -95,9 +104,15 @@ export const Result = ({
               )}
             </Media>
           )}
-          <Label size="sm" truncate>
-            {label}
-          </Label>
+
+          <LabelWrapper>
+            <Label size="sm" truncate>
+              {label}
+            </Label>
+            <Description size="sm" truncate>
+              {description}
+            </Description>
+          </LabelWrapper>
           {CustomArrow ? (
             isFunction(CustomArrow) ? (
               <CustomArrow active={isActive} hovered={hover} focused={focus} />
