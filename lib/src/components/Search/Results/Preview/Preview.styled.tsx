@@ -6,7 +6,6 @@ export const Container = styled.div`
   /* width: 50%; */
   flex-direction: column;
   justify-content: space-between;
-  ---preview-pad: 1rem;
   min-height: 100%;
   ${getBorder("left")}
 `;
