@@ -47,7 +47,7 @@ export const ModalContainer = styled.div<{ show: boolean }>`
   bottom: 0;
   left: 0;
   z-index: 50;
-  padding: 1rem;
+  padding: 5rem;
   transition-property: opacity;
   ${(props) =>
     props.show
@@ -62,13 +62,13 @@ export const ModalContainer = styled.div<{ show: boolean }>`
           opacity: 0;
         `}
   ${mediaQuery("sm")} {
-    padding: 2rem;
+    padding: 5rem;
   }
   ${mediaQuery("md")} {
-    padding: 3rem 2rem;
+    padding: 5rem 2rem;
   }
   ${mediaQuery("lg")} {
-    padding-top: 7%;
+    padding-top: 10%;
   }
   ${mediaQuery("xl")} {
     padding-top: 10%;

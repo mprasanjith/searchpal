@@ -26,7 +26,7 @@ export const srOnlyJs = {
 
 export const inputText = css`
   white-space: pre;
-  font-size: 1rem;
+  font-size: 1.3rem;
   /* line-height: 1rem; */
 `;
 
